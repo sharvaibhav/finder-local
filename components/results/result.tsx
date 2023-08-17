@@ -15,7 +15,7 @@ import { fetchMetaData } from "@/utilities/filters-fetch.utility";
 import { Metadata } from "@/pages/api/meta";
 import { generateHash } from "@/utilities/hash-generator.utility";
 import { useRequestContext } from "@/pages";
-import { get, intersection, keyBy, map } from "lodash";
+import { keyBy } from "lodash";
 import { compareFormData } from "@/utilities/compare-formdata";
 import { ResultsGrid } from "../result-grid/result-grid";
 
