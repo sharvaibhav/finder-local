@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import MinMaxSlider from "./minMaxInput";
 import DateRangePicker, { Range } from "./date";
 import { FormField, FormFields } from "@/hooks/filters-hooks";
@@ -154,4 +154,4 @@ const Filters: React.FC<FiltersProps> = ({
   );
 };
 
-export default Filters;
+export default memo(Filters);
