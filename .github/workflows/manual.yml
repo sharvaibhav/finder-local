@@ -23,14 +23,11 @@ jobs:
       - name: Create Fork
         run: |
           RESPONSE=$(curl -X POST -H "Authorization: token ${{ secrets.GH_PAT }}" \
-          https://api.github.com/repos/${{ github.repository }}/forks)
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/${{ github.repository_owner }}/${{ github.repository }}/forks\
+            -d '{"name":"${{ github.event.inputs.forkName }}, "private": true})
           echo "Fork creation response: $RESPONSE"
-
-      - name: Make the Fork Private
-        run: |
-          curl -X PATCH -H "Authorization: token ${{ secrets.GH_PAT }}" \
-          -d '{"name": "${{ github.event.inputs.forkName }}", "private": true}' \
-          https://api.github.com/repos/${{ github.repository_owner }}/${{ github.event.inputs.forkName }}
 
       - name: Invite Candidate
         run: |
