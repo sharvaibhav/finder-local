@@ -1,65 +1,59 @@
-
-name: Clone Public Repository Workflow
+name: Duplicate Repository and Send Invite
 
 on:
-  push:
-  schedule:
-    - cron: '0 3 * * *'
   workflow_dispatch:
+    inputs:
+      newRepoName:
+        description: 'Name for the duplicated repository'
+        required: true
+      inviteeUsername:
+        description: 'GitHub Username to send invite'
+        required: true
 
 jobs:
-    
-  job-public-repo-ubuntu:
+  duplicate_repo:
     runs-on: ubuntu-latest
     steps:
-      
-      - name: Clone GuillaumeFalourd/poc-github-actions PUBLIC repository
-        uses: GuillaumeFalourd/clone-github-repo-action@main
-        with:
-          owner: 'GuillaumeFalourd'
-          repository: 'poc-github-actions'
-      
-      - name: Access cloned repository content
-        run: |
-          echo "ROOT"
-          ls -la
-          echo "CLONED REPO"
-          cd poc-github-actions
-          ls -la
+      - name: Checkout current repository
+        uses: actions/checkout@v2
 
-  job-public-repo-macos:
-    runs-on: macos-latest
-    steps:
-      
-      - name: Clone GuillaumeFalourd/poc-github-actions PUBLIC repository
-        uses: GuillaumeFalourd/clone-github-repo-action@main
-        with:
-          owner: 'GuillaumeFalourd'
-          repository: 'poc-github-actions'
-      
-      - name: Access cloned repository content
-        run: |
-          echo "ROOT"
-          ls -la
-          echo "CLONED REPO"
-          cd poc-github-actions
-          ls -la
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
 
-  job-public-repo-windows:
-    runs-on: windows-latest
-    steps:
-      
-      - name: Clone GuillaumeFalourd/poc-github-actions PUBLIC repository
-        uses: GuillaumeFalourd/clone-github-repo-action@main
-        with:
-          owner: 'GuillaumeFalourd'
-          repository: 'poc-github-actions'
-      
-      - name: Access cloned repository content
+      - name: Create new GitHub repository
         run: |
-          echo "ROOT"
-          ls -la
-          echo "CLONED REPO"
-          cd poc-github-actions
-          ls -la
-        shell: bash
+          RESPONSE=$(curl -s -X POST \
+          -H "Authorization: token ${{ secrets.GH_PAT }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/user/repos \
+          -d '{"name":"${{ github.event.inputs.newRepoName }}", "private": false}')
+          echo "$RESPONSE" > repo_response.json
+          # Print out the response for diagnostic purposes, excluding potential token
+          jq 'del(.token)' repo_response.json
+
+      - name: Set up Git and push to new repository
+        run: |
+          NEW_REPO_GIT_URL=$(jq -r .clone_url repo_response.json)
+          echo "Extracted URL: $NEW_REPO_GIT_URL"  # For debugging
+          if [[ -z "$NEW_REPO_GIT_URL" ]]; then
+            echo "Error: Failed to extract clone URL from response."
+            exit 1
+          fi
+          git config user.email "action@github.com"
+          git config user.name "GitHub Action"
+          git remote rename origin old-origin
+          # Use token for HTTPS authentication
+          git remote add origin "https://${{ secrets.GH_PAT }}@${NEW_REPO_GIT_URL#https://}"
+          sleep 10  # Add a delay to ensure the repo is ready
+          git push -u origin HEAD:main
+
+
+
+      - name: Invite user to the new repository
+        run: |
+          REPO_FULL_NAME=$(jq -r .full_name repo_response.json)
+          curl -s -X PUT \
+          -H "Authorization: token ${{ secrets.GH_PAT }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/$REPO_FULL_NAME/collaborators/${{ github.event.inputs.inviteeUsername }} \
+          -d '{"permission": "push"}'
