@@ -14,6 +14,9 @@ jobs:
   duplicate_repo:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout current repository
+        uses: actions/checkout@v2
+
       - name: Create new GitHub repository
         run: |
           RESPONSE=$(curl -s -X POST \
@@ -26,14 +29,12 @@ jobs:
       - name: Set up Git and push to new repository
         run: |
           NEW_REPO_GIT_URL=$(jq -r .ssh_url repo_response.json)
-          git init
+          # Already cloned via the checkout action; just need to switch remotes
           git config user.email "action@github.com"
           git config user.name "GitHub Action"
+          git remote rename origin old-origin
           git remote add origin $NEW_REPO_GIT_URL
-          git add .
-          git commit -m "Duplicate original repository"
-          git branch -M main
-          git push -u origin main
+          git push -u origin HEAD:main
 
       - name: Invite user to the new repository
         run: |
