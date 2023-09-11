@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: Checkout current repository
         uses: actions/checkout@v2
-        
+
       - name: Install jq
         run: sudo apt-get update && sudo apt-get install -y jq
 
@@ -28,11 +28,16 @@ jobs:
           https://api.github.com/user/repos \
           -d '{"name":"${{ github.event.inputs.newRepoName }}", "private": true}')
           echo "$RESPONSE" > repo_response.json
+          # Print out the response for diagnostic purposes, excluding potential token
+          jq 'del(.token)' repo_response.json
 
       - name: Set up Git and push to new repository
         run: |
           NEW_REPO_GIT_URL=$(jq -r .ssh_url repo_response.json)
-          # Already cloned via the checkout action; just need to switch remotes
+          if [[ -z "$NEW_REPO_GIT_URL" ]]; then
+            echo "Error: Failed to extract SSH URL from response."
+            exit 1
+          fi
           git config user.email "action@github.com"
           git config user.name "GitHub Action"
           git remote rename origin old-origin
