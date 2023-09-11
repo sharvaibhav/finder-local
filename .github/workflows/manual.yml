@@ -27,6 +27,8 @@ jobs:
         run: |
           NEW_REPO_GIT_URL=$(jq -r .ssh_url repo_response.json)
           git init
+          git config user.email "action@github.com"
+          git config user.name "GitHub Action"
           git remote add origin $NEW_REPO_GIT_URL
           git add .
           git commit -m "Duplicate original repository"
