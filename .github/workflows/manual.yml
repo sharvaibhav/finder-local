@@ -3,11 +3,11 @@ name: Create Private Fork and Invite
 on:
   workflow_dispatch:
     inputs:
-      candidateEmail:
-        description: 'Candidate Email'
-        required: true
       forkName:
         description: 'Name for the new fork repository'
+        required: true
+      candidateUsername:
+        description: 'Candidate GitHub Username'
         required: true
 
 jobs:
@@ -17,6 +17,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Install jq
+        run: sudo apt-get install jq
+
       - name: Create Private Fork
         run: |
           curl -X POST -H "Authorization: token ${{ secrets.GH_PAT }}" \
@@ -25,6 +28,11 @@ jobs:
 
       - name: Invite Candidate
         run: |
+          # First, fetch the user ID from the GitHub API using the provided username
+          USER_ID=$(curl -s -H "Authorization: token ${{ secrets.GH_PAT }}" \
+          https://api.github.com/users/${{ github.event.inputs.candidateUsername }} | jq .id)
+          
+          # Then, use this user ID to invite the candidate to the forked repository
           curl -X PUT -H "Authorization: token ${{ secrets.GH_PAT }}" \
-          -d '{"permission": "push", "invitee_id": (Get GitHub user ID using API and the provided email)}' \
-          https://api.github.com/repos/${{ github.repository_owner }}/${{ github.event.inputs.forkName }}/collaborators
+          -d '{"permission": "push"}' \
+          https://api.github.com/repos/${{ github.repository_owner }}/${{ github.event.inputs.forkName }}/collaborators/$USER_ID
