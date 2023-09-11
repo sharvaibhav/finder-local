@@ -33,16 +33,18 @@ jobs:
 
       - name: Set up Git and push to new repository
         run: |
-          NEW_REPO_GIT_URL=$(jq -r .ssh_url repo_response.json)
+          NEW_REPO_GIT_URL=$(jq -r .clone_url repo_response.json)
           if [[ -z "$NEW_REPO_GIT_URL" ]]; then
-            echo "Error: Failed to extract SSH URL from response."
+            echo "Error: Failed to extract clone URL from response."
             exit 1
           fi
           git config user.email "action@github.com"
           git config user.name "GitHub Action"
           git remote rename origin old-origin
-          git remote add origin $NEW_REPO_GIT_URL
+          # Use token for HTTPS authentication
+          git remote add origin "https://${{ secrets.GH_PAT }}@${NEW_REPO_GIT_URL#https://}"
           git push -u origin HEAD:main
+
 
       - name: Invite user to the new repository
         run: |
