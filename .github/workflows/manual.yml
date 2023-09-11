@@ -1,0 +1,30 @@
+name: Create Private Fork and Invite
+
+on:
+  workflow_dispatch:
+    inputs:
+      candidateEmail:
+        description: 'Candidate Email'
+        required: true
+      forkName:
+        description: 'Name for the new fork repository'
+        required: true
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Create Private Fork
+        run: |
+          curl -X POST -H "Authorization: token ${{ secrets.GH_PAT }}" \
+          -d '{"name": "${{ github.event.inputs.forkName }}", "private": true}' \
+          https://api.github.com/repos/${{ github.repository }}/forks
+
+      - name: Invite Candidate
+        run: |
+          curl -X PUT -H "Authorization: token ${{ secrets.GH_PAT }}" \
+          -d '{"permission": "push", "invitee_id": (Get GitHub user ID using API and the provided email)}' \
+          https://api.github.com/repos/${{ github.repository_owner }}/${{ github.event.inputs.forkName }}/collaborators
