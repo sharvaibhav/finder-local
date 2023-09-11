@@ -20,18 +20,17 @@ jobs:
       - name: Install jq
         run: sudo apt-get install jq
 
-      - name: Create Private Fork
+      - name: Create Fork
         run: |
           RESPONSE=$(curl -X POST -H "Authorization: token ${{ secrets.GH_PAT }}" \
-          -d '{"name": "${{ github.event.inputs.forkName }}", "private": true}' \
           https://api.github.com/repos/${{ github.repository }}/forks)
           echo "Fork creation response: $RESPONSE"
 
-      - name: Check if Fork was created
+      - name: Make the Fork Private
         run: |
-          REPO_CHECK=$(curl -H "Authorization: token ${{ secrets.GH_PAT }}" \
-          https://api.github.com/repos/${{ github.repository_owner }}/${{ github.event.inputs.forkName }})
-          echo "Fork verification response: $REPO_CHECK"
+          curl -X PATCH -H "Authorization: token ${{ secrets.GH_PAT }}" \
+          -d '{"name": "${{ github.event.inputs.forkName }}", "private": true}' \
+          https://api.github.com/repos/${{ github.repository_owner }}/${{ github.event.inputs.forkName }}
 
       - name: Invite Candidate
         run: |
