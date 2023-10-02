@@ -1,8 +1,8 @@
-import { FormField, FormFields } from "@/hooks/filters-hook";
 import { AggregationsOrStats, SearchResponse } from "@/pages/api/search";
 import { Metadata } from "@/types/data.interface";
 import { Dictionary, keyBy } from "lodash";
 import { generateHash } from "./hash-generator.utility";
+import { FormField, FormFields } from "@/components/filters/filter-types";
 
 /* Error message constants */
 const ERROR_MESSAGES = {
@@ -29,7 +29,7 @@ const createFormData = (
   metaData: { [key: string]: Metadata },
   resultsData: SearchResponse | null,
   prevFormData: FormFields | null
-): FormField[] => {
+): FormFields => {
   if (!metaData || !resultsData) {
     return [];
   }

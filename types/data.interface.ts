@@ -1,4 +1,4 @@
-interface ISearchData {
+export interface ISearchData {
   [key: string]: string | number | undefined; // Index signature for keys with spaces
   sapParentAvevaExternalId: string;
   source: string;

@@ -1,6 +1,6 @@
-import { FormField, FormFields } from "@/hooks/filters-hook";
 import { Metadata } from "@/types/data.interface";
 import { generateHash } from "./hash-generator.utility";
+import { FormField, FormFields } from "@/components/filters/filter-types";
 
 const crerateFormFieldsForAvailableFilters = (
   formData: FormFields,

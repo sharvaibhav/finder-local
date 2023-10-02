@@ -1,4 +1,3 @@
-import { FormField } from "@/hooks/filters-hook";
 import useMetaHook from "@/hooks/meta-hook";
 import useAvailableFiltersStore, {
   selectAvailableFilters,
@@ -12,6 +11,7 @@ import crerateFormFieldsForAvailableFilters from "@/utilities/create-form-fields
 import { Popover } from "@headlessui/react";
 import { useEffect, useMemo } from "react";
 import LoadingBox from "../reusable/filters-loader/filters-loader";
+import { FormField } from "./filter-types";
 
 export const AddFilter: React.FC = () => {
   const { data: metaData, isLoading: isLoadingMeta } = useMetaHook();
@@ -77,7 +77,7 @@ export const AddFilter: React.FC = () => {
           </Popover.Button>
 
           <Popover.Panel className="border border-gray-300 bg-white	 rounded-md absolute max-h-60 z-20  overflow-y-auto w-full">
-            {availableFilters.map((filter) => (
+            {availableFilters.map((filter: FormField) => (
               <span key={filter.label}>
                 <button
                   className="p-2 w-full text-left	  bg-white text-blue-800 hover:bg-blue-300 focus:outline-none focus:ring focus:ring-blue-300"

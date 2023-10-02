@@ -17,6 +17,7 @@ import useSearchRequestStore, {
 } from "@/stores/search-request-store";
 import createFormData from "@/utilities/create-formdata-from-meta-and-result-data";
 import LoadingBox from "../reusable/filters-loader/filters-loader";
+import { FormField } from "./filter-types";
 
 const CurrentFiltersView: React.FC = () => {
   const currentFilters = useCurrentFilterStore(selectCurrentFilters);
@@ -56,7 +57,15 @@ const CurrentFiltersView: React.FC = () => {
   return (
     <div className="flex flex-wrap">
       {currentFilters?.map(
-        ({ label, type, options, rangeMin, rangeMax, selection, value }) => {
+        ({
+          label,
+          type,
+          options,
+          rangeMin,
+          rangeMax,
+          selection,
+          value,
+        }: FormField) => {
           if (type === "number" && rangeMin && rangeMax) {
             return (
               <div

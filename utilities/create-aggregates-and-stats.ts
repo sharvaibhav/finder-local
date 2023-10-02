@@ -1,4 +1,4 @@
-import { FormFields } from "@/hooks/filters-hook";
+import { FormFields } from "@/components/filters/filter-types";
 
 export const createAggregates = (formData: FormFields) => {
   const aggregates = formData
