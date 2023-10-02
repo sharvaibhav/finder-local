@@ -1,23 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import dummyData from "../../dummy_data.json";
-
-interface Data {
-  [key: string]: any;
-}
-
-export interface Metadata {
-  dataType: string;
-  values: any[];
-  min?: string | number;
-  max?: string | number;
-  trueCount?: number;
-  falseCount?: number;
-}
-
-interface ParsedValue {
-  dataType: string;
-  parsedValue: any;
-}
+import { Data, Metadata, ParsedValue } from "@/types/data.interface";
 
 function parseValue(value: any): ParsedValue {
   if (typeof value === "number") {

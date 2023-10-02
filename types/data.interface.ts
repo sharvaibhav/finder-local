@@ -11,3 +11,21 @@ interface ISearchData {
   flocSystemId: number;
   flocLocation: string;
 }
+
+export interface Data {
+  [key: string]: any;
+}
+
+export interface Metadata {
+  dataType: string;
+  values: any[];
+  min?: string | number;
+  max?: string | number;
+  trueCount?: number;
+  falseCount?: number;
+}
+
+export interface ParsedValue {
+  dataType: string;
+  parsedValue: any;
+}

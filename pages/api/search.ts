@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import dummyData from "../../dummy_data.json";
-import { FormFields } from "@/hooks/filters-hooks";
+import { FormFields } from "@/hooks/filters-hook";
 
 function isDateValid(dateString: string) {
   const parsedDate = new Date(dateString);
@@ -13,7 +13,7 @@ export interface SearchRequest {
   stats: string;
   size?: number;
   offset?: number;
-  filters: FormFields;
+  filters: FormFields | {};
 }
 
 export interface AggregationsOrStats {

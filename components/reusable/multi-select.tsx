@@ -1,5 +1,4 @@
-// @ts-nocheck
-import React, { useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 
 export interface Option {
@@ -8,48 +7,32 @@ export interface Option {
   value: string;
 }
 
-const defaultData: Option[] = [
-  {
-    id: "Wade Cooper",
-    name: "Wade Cooper",
-    value: "Wade Cooper",
-  },
-  {
-    id: "Arlene Mccoy",
-    name: "Arlene Mccoy",
-    value: "Arlene Mccoy",
-  },
-  {
-    id: "Devon Webb",
-    name: "Devon Webb",
-    value: "Devon Webb",
-  },
-];
-
 interface MultiSelectProps {
   label: string;
   defaultValue: Option[];
   options: Option[];
   onChange: (selectedOption: Option[], label: string) => void;
 }
-
-export const MultiSelect: React.FC<MultiSelectProps> = ({
+const MultiSelectComponent: React.FC<MultiSelectProps> = ({
   label,
   options = [],
   defaultValue = [],
   onChange = (sel) => console.log(sel),
 }) => {
+  console.log(`MultiSelect-${label}`, defaultValue);
   const [isOpen, setIsOpen] = useState(false);
   const [selection, setSelection] = useState<Option[]>(defaultValue);
   const dropdownRef = useRef<HTMLElement>(null);
 
-  //@ts-ignore
-  const handleClickOutside = (event: React.MouseEvent<HTMLElement>) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setIsOpen(false);
-    }
-  };
   useEffect(() => {
+    const handleClickOutside = (event: React.MouseEvent<HTMLElement>) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
     document.addEventListener("click", handleClickOutside);
     return () => {
       document.removeEventListener("click", handleClickOutside);
@@ -102,7 +85,11 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
                     open={isOpen}>
                     <span className="block truncate">
                       {selection.length < 1
-                        ? `${label}`
+                        ? `${
+                            defaultValue.length > 0
+                              ? defaultValue.map((val) => val.name).join(",")
+                              : label
+                          }`
                         : ` ${label} is (${selection
                             .map((data) => data.value)
                             .join(",")})`}
@@ -184,3 +171,5 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
     </div>
   );
 };
+
+export const MultiSelect = memo(MultiSelectComponent);

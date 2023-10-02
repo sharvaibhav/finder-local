@@ -1,17 +1,58 @@
 import { SearchResponse } from "@/pages/api/search";
-import LoadingBox from "../filters/filters-loader/filters-loader";
-import { memo } from "react";
+import LoadingBox from "../reusable/filters-loader/filters-loader";
+import { memo, useEffect, useRef } from "react";
+import useCurrentFilterStore, {
+  selectCurrentFilters,
+} from "@/stores/current-filters-store";
+import { compareFormData } from "@/utilities/compare-formdata";
+import {
+  createAggregates,
+  createStats,
+} from "@/utilities/create-aggregates-and-stats";
+import useSearchRequestStore, {
+  selectSearchRequest,
+  selectUpdateSearchRequest,
+} from "@/stores/search-request-store";
+import { useSearchResults } from "@/hooks/search-results";
 
-export interface ResultsGridProps {
-  results: SearchResponse | null;
-  isLoading: boolean;
-}
 export const NUMBER_OF_COLUMNS = 12;
 
-const ResultsGridComponent: React.FC<ResultsGridProps> = ({
-  results,
-  isLoading,
-}) => {
+const ResultsGridComponent: React.FC = () => {
+  const request = useSearchRequestStore(selectSearchRequest);
+  const currentFilters = useCurrentFilterStore(selectCurrentFilters);
+  const setRequest = useSearchRequestStore(selectUpdateSearchRequest);
+  const prevFormDataValue = useRef(currentFilters);
+  const { data: results, isLoading } = useSearchResults(request);
+
+  /**
+   * This useEffect takes care we dont fire unnecessary http calls.
+   */
+  useEffect(() => {
+    if (currentFilters && currentFilters?.length) {
+      /**
+       * Here we wrote a function to identify if the form data selection or min/max values are same,
+       * then possibly there are no changes on the form selection,
+       * only the options have changed according to new data from search results aggregations and stats.
+       * So lets not change the request and not let the http call fire.
+       */
+      if (
+        prevFormDataValue.current &&
+        compareFormData(prevFormDataValue.current, currentFilters)
+      ) {
+        return;
+      }
+      prevFormDataValue.current = currentFilters;
+      // creating aggregates and stats from formData
+      const aggregate = createAggregates(currentFilters);
+      const stats = createStats(currentFilters);
+      setRequest({
+        aggregate,
+        stats,
+        filters: currentFilters,
+      });
+    }
+  }, [currentFilters, setRequest]);
+
   if (isLoading) {
     return <LoadingBox items={15} orientation="vertical" />;
   }
