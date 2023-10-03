@@ -17,7 +17,7 @@ const crerateFormFieldsForAvailableFilters = (
           type: metadata.dataType,
           options: Object.entries(metaData[label].values).map(([_, value]) => ({
             id: generateHash(value),
-            name: `${value} `,
+            name: `${value}`,
             value: value,
           })),
         } as unknown as FormField;

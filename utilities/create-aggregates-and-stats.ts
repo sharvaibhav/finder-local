@@ -16,7 +16,9 @@ export const createStats = (formData: FormFields) => {
   return stats;
 };
 
-export const pruneOptionsForMultiSelect = (formData: FormFields) => {
+export const pruneOptionsForMultiSelect = (
+  formData: FormFields
+): FormFields => {
   const prunedFormData = formData.map((data) => {
     if (data.type === "string") {
       const { options, ...rest } = data;

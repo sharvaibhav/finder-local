@@ -1,6 +1,6 @@
 import { FormField, FormFields } from "@/components/filters/filter.model";
 
-function compareFields(field1: FormField, field2: FormField): boolean {
+export function compareFields(field1: FormField, field2: FormField): boolean {
   if (field1.type === "string") {
     return (
       (field1.label === field2.label &&
