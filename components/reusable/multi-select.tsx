@@ -62,12 +62,12 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
       selectedItemUpdated = selection.filter((el) => el.id !== value.id);
       setSelection(selectedItemUpdated);
     }
-    setIsOpen(true);
+    // setIsOpen(true);
   }
 
   return (
     <div className="flex items-center justify-center ">
-      <div className="w-full max-w-xs mx-auto">
+      <div className="w-full ">
         <Listbox
           as="div"
           className="space-y-1"

@@ -70,14 +70,14 @@ export const AddFilter: React.FC = () => {
     );
   }
   return (
-    <Popover className="py-2">
+    <Popover className="py-2 relative">
       {({ open }) => (
         <>
           <Popover.Button className="p-2 w-1/3 bg-blue-200 text-blue-800 rounded-md shadow-md hover:bg-blue-300 focus:outline-none focus:ring focus:ring-blue-300">
             Add Filter{" "}
           </Popover.Button>
 
-          <Popover.Panel className="border border-gray-300 bg-white	 rounded-md absolute max-h-60 z-20  overflow-y-auto w-full">
+          <Popover.Panel className="border border-gray-300 bg-white rounded-md max-h-60 z-20  overflow-y-auto w-1/3  absolute">
             {availableFilters.map((filter: FormField) => (
               <span key={filter.label}>
                 <button

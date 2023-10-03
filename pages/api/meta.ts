@@ -92,21 +92,13 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       for (const key in metadata) {
         const metadataItem = metadata[key];
         // pruning propertieas which are unique per item basically are unique properties
-        if (metadataItem.values && metadataItem.values.length == data.length) {
+        if (
+          metadataItem.values &&
+          metadataItem.dataType === "string" &&
+          metadataItem.values.length == data.length
+        ) {
           delete metadata[key];
           continue;
-        }
-        switch (metadataItem.dataType) {
-          case "number":
-          case "date":
-            metadataItem.min = Math.min(...metadataItem.values);
-            metadataItem.max = Math.max(...metadataItem.values);
-            break;
-          case "boolean":
-            metadataItem.trueCount = metadataItem.values.filter(Boolean).length;
-            metadataItem.falseCount =
-              metadataItem.values.length - metadataItem.trueCount;
-            break;
         }
       }
       metaCache["metadata"] = metadata;
