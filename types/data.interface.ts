@@ -9,7 +9,6 @@ export interface ISearchData {
   flocFunctionalLocation: string;
   System: string;
   flocSystemId: number;
-  flocLocation: string;
 }
 
 export interface Data {
