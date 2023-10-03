@@ -8,6 +8,7 @@ import { compareFormData } from "@/utilities/compare-formdata";
 import {
   createAggregates,
   createStats,
+  pruneOptionsForMultiSelect,
 } from "@/utilities/create-aggregates-and-stats";
 import useSearchRequestStore, {
   selectSearchRequest,
@@ -45,10 +46,11 @@ const ResultsGridComponent: React.FC = () => {
       // creating aggregates and stats from formData
       const aggregate = createAggregates(currentFilters);
       const stats = createStats(currentFilters);
+      const filters = pruneOptionsForMultiSelect(currentFilters);
       setRequest({
         aggregate,
         stats,
-        filters: currentFilters,
+        filters,
       });
     }
   }, [currentFilters, setRequest]);

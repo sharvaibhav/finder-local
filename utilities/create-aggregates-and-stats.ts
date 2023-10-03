@@ -15,3 +15,14 @@ export const createStats = (formData: FormFields) => {
     .join(",");
   return stats;
 };
+
+export const pruneOptionsForMultiSelect = (formData: FormFields) => {
+  const prunedFormData = formData.map((data) => {
+    if (data.type === "string") {
+      const { options, ...rest } = data;
+      return rest;
+    }
+    return data;
+  });
+  return prunedFormData;
+};

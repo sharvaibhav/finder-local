@@ -23,7 +23,6 @@ export const AddFilter: React.FC = () => {
   const addFilterToCurrentFilters = useCurrentFilterStore(
     selectAddFilterToCurrentFilters
   );
-  const setCurrentFilters = useCurrentFilterStore(selectSetCurrentFilters);
   const availableFilters = useAvailableFiltersStore(selectAvailableFilters);
 
   /**
@@ -49,19 +48,16 @@ export const AddFilter: React.FC = () => {
     if (currentFilters) {
       switch (filter.type) {
         case "string": {
-          setCurrentFilters([...currentFilters, { ...filter, selection: [] }]);
+          addFilterToCurrentFilters({ ...filter, selection: [] });
           break;
         }
         case "number":
         case "date": {
-          setCurrentFilters([
-            ...currentFilters,
-            {
-              ...filter,
-              min: undefined,
-              max: undefined,
-            },
-          ]);
+          addFilterToCurrentFilters({
+            ...filter,
+            min: undefined,
+            max: undefined,
+          });
         }
       }
     }
