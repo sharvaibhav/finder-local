@@ -13,15 +13,19 @@ interface SearchRequestState {
 const emptySearchRequest: SearchRequest = {
   query: " ",
   aggregate: "System,Discipline",
-  stats: "CALIBRATED RANGE MAX",
+  stats: "WEIGHT (DRY)",
   filters: [],
+  size: 15,
+  offset: 0,
 };
 
 const initialSearchRequest: SearchRequest = {
   query: " ",
   aggregate: "System,Discipline",
-  stats: "CALIBRATED RANGE MAX",
+  stats: "WEIGHT (DRY)",
   filters: [],
+  size: 15,
+  offset: 0,
 };
 
 const useSearchRequestStore = create<SearchRequestState>((set) => ({

@@ -1,4 +1,4 @@
-import { FormField, FormFields } from "@/components/filters/filter-types";
+import { FormField, FormFields } from "@/components/filters/filter.model";
 
 function compareFields(field1: FormField, field2: FormField): boolean {
   if (field1.type === "string") {

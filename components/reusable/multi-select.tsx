@@ -14,13 +14,12 @@ interface MultiSelectProps {
   options: Option[];
   onChange: (selectedOption: Option[], label: string) => void;
 }
-const MultiSelectComponent: React.FC<MultiSelectProps> = ({
+export const MultiSelect: React.FC<MultiSelectProps> = ({
   label,
   options = [],
   defaultValue = [],
   onChange = (sel) => console.log(sel),
 }) => {
-  console.log(`MultiSelect-${label}`, defaultValue);
   const [isOpen, setIsOpen] = useState(false);
   const [selection, setSelection] = useState<Option[]>(defaultValue);
   const dropdownRef = useRef<HTMLElement>(null);
@@ -88,7 +87,9 @@ const MultiSelectComponent: React.FC<MultiSelectProps> = ({
                       {selection.length < 1
                         ? `${
                             defaultValue.length > 0
-                              ? defaultValue.map((val) => val.name).join(",")
+                              ? `${label} is ${defaultValue
+                                  .map((val) => val.name)
+                                  .join(",")}`
                               : label
                           }`
                         : ` ${label} is (${selection
@@ -172,5 +173,3 @@ const MultiSelectComponent: React.FC<MultiSelectProps> = ({
     </div>
   );
 };
-
-export const MultiSelect = memo(MultiSelectComponent);

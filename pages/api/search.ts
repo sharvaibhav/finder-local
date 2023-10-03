@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import dummyData from "../../dummy_data.json";
-import { FormFields } from "@/components/filters/filter-types";
+import { FormFields } from "@/components/filters/filter.model";
 import { ISearchData } from "@/types/data.interface";
 
 function isDateValid(dateString: string) {

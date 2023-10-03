@@ -1,4 +1,4 @@
-import { FormField, FormFields } from "@/components/filters/filter-types";
+import { FormField, FormFields } from "@/components/filters/filter.model";
 import { produce } from "immer";
 import { create } from "zustand";
 

@@ -2,7 +2,7 @@ import { AggregationsOrStats, SearchResponse } from "@/pages/api/search";
 import { Metadata } from "@/types/data.interface";
 import { Dictionary, keyBy } from "lodash";
 import { generateHash } from "./hash-generator.utility";
-import { FormField, FormFields } from "@/components/filters/filter-types";
+import { FormField, FormFields } from "@/components/filters/filter.model";
 
 /* Error message constants */
 const ERROR_MESSAGES = {

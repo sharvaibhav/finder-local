@@ -53,7 +53,6 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
       dateRange.endDate &&
       dateRange.endDate > dateRange.startDate
     ) {
-      console.log("hide popover");
       setShowDateRange(false);
       onChange({
         startDate: dateRange.startDate,

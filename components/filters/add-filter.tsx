@@ -6,12 +6,13 @@ import useAvailableFiltersStore, {
 import useCurrentFilterStore, {
   selectAddFilterToCurrentFilters,
   selectCurrentFilters,
+  selectSetCurrentFilters,
 } from "@/stores/current-filters-store";
 import crerateFormFieldsForAvailableFilters from "@/utilities/create-form-fields-for-available-filters";
 import { Popover } from "@headlessui/react";
 import { useEffect, useMemo } from "react";
 import LoadingBox from "../reusable/filters-loader/filters-loader";
-import { FormField } from "./filter-types";
+import { FormField } from "./filter.model";
 
 export const AddFilter: React.FC = () => {
   const { data: metaData, isLoading: isLoadingMeta } = useMetaHook();
@@ -22,6 +23,7 @@ export const AddFilter: React.FC = () => {
   const addFilterToCurrentFilters = useCurrentFilterStore(
     selectAddFilterToCurrentFilters
   );
+  const setCurrentFilters = useCurrentFilterStore(selectSetCurrentFilters);
   const availableFilters = useAvailableFiltersStore(selectAvailableFilters);
 
   /**
@@ -47,16 +49,19 @@ export const AddFilter: React.FC = () => {
     if (currentFilters) {
       switch (filter.type) {
         case "string": {
-          addFilterToCurrentFilters({ ...filter, selection: [] });
+          setCurrentFilters([...currentFilters, { ...filter, selection: [] }]);
           break;
         }
         case "number":
         case "date": {
-          addFilterToCurrentFilters({
-            ...filter,
-            min: undefined,
-            max: undefined,
-          });
+          setCurrentFilters([
+            ...currentFilters,
+            {
+              ...filter,
+              min: undefined,
+              max: undefined,
+            },
+          ]);
         }
       }
     }
