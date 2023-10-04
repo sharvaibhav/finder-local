@@ -6,7 +6,6 @@ import useAvailableFiltersStore, {
 import useCurrentFilterStore, {
   selectAddFilterToCurrentFilters,
   selectCurrentFilters,
-  selectSetCurrentFilters,
 } from "@/stores/current-filters-store";
 import crerateFormFieldsForAvailableFilters from "@/utilities/create-form-fields-for-available-filters";
 import { Popover } from "@headlessui/react";

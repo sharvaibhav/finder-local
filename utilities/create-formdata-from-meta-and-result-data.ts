@@ -26,7 +26,7 @@ enum DataType {
  * @returns  - A FormField array, This is the current state of the form.
  */
 const createFormData = (
-  metaData: { [key: string]: Metadata },
+  metaData: { [key: string]: Metadata } | null,
   resultsData: SearchResponse | null,
   prevFormData: FormFields | null
 ): FormFields => {

@@ -78,17 +78,3 @@ export const selectAddFilterToCurrentFilters = (state: CurrentFiltersState) =>
   state.addFilterToCurrentFilters;
 
 export default useCurrentFilterStore;
-
-// export interface CounterState {
-//   counter: number;
-//   incrCounter: () => void;
-// }
-// const useCounter = create<CounterState>((set) => {
-//   return {
-//     counter: 0,
-//     incrCounter: () =>
-//       set((state: CounterState) => ({ counter: state.counter + 1 })),
-//   };
-// });
-
-// export default useCounter;

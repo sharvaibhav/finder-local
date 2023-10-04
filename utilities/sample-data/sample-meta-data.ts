@@ -45,4 +45,48 @@ export const sampleMeta2 = {
     dataType: "string",
     values: ["Zone 1", "Zone 2", "Zone 0"],
   },
+  System: {
+    dataType: "string",
+    values: [
+      "31: Sub mechanical Sys",
+      "11: Crane and fabrication",
+      "21: CRUDE HANDLING AND METERING",
+    ],
+  },
+  Discipline: {
+    dataType: "string",
+    values: [
+      "G: Gaseous sabstances",
+      "I: Industrial equipments",
+      "C: Crane and material",
+      "A: Assemply and Installation",
+      "D: Gas and toxic substance",
+      "F: Facility handling",
+      "E: Electrical",
+      "J: Jagan and magan",
+      "B: Biomarine and sanity",
+    ],
+  },
+  "WEIGHT (DRY)": {
+    dataType: "number",
+    values: [
+      18.61, 11.75, 10.41, 16.12, 8.25, 16.56, 13.84, 4.33, 2.88, 9.16, 5.52,
+      13.34, 4.18, 2.06, 6.61, 5.56, 12.66, 12.32, 16.2, 16.59, 2.61, 17.64,
+      5.67, 12.75, 9.01, 3.1, 13.49, 13.98, 5.74, 6.05, 17.56, 4.38,
+    ],
+  },
+  "CALIBRATION DATE": {
+    dataType: "date",
+    values: [
+      1698248911880, 1698125316354, 1698204617112, 1697328477724, 1697956680079,
+      1698041365597, 1697418967094,
+    ],
+  },
+  "CALIBRATION DATE 2": {
+    dataType: "date",
+    values: [
+      1698248911880, 1698125316354, 1698204617112, 1697328477724, 1697956680079,
+      1698041365597, 1697418967094,
+    ],
+  },
 };
