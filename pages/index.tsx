@@ -21,7 +21,7 @@ const Home: React.FC = () => {
       <QueryClientProvider client={queryClient}>
         <div className="finder">
           <header className="bg-gray-800 py-4">
-            <div className="container mx-auto px-1">
+            <div className="container px-24">
               <h1 className="text-white text-3xl font-bold">Finder</h1>
             </div>
           </header>

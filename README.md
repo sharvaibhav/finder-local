@@ -1,36 +1,105 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Dynamic Data Search Project
 
-## Getting Started
+This project is built using Next.js and provides dynamic data searching capabilities, including query and filter options to refine the search results. It exposes two main APIs for fetching metadata and performing searches based on various parameters.
 
-First, run the development server:
+## Table of Contents
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+- [Installation](#installation)
+- [Usage](#usage)
+- [API](#api)
+  - [/api/meta](#apimeta)
+  - [/api/search](#apisearch)
+- [Contributing](#contributing)
+- [License](#license)
+
+## APIs
+
+### 1. /api/meta
+
+Returns metadata of the searchable data.
+
+**Response Format:**
+
+```typescript
+{
+  [key: string]: Metadata
+}
+
+export interface Metadata {
+  dataType: string;
+  values: any[];
+  min?: string | number;
+  max?: string | number;
+  trueCount?: number;
+  falseCount?: number;
+}
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. /api/search
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Allows searching data based on various parameters.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+**Response Format:**
 
-## Learn More
+Request Type:
 
-To learn more about Next.js, take a look at the following resources:
+```typescript
+export interface SearchRequest {
+  query: string;
+  aggregate: string;
+  stats: string;
+  size?: number;
+  offset?: number;
+  filters: FormFields | {};
+}
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Response Type:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```typescript
+export interface SearchResponse {
+  hits: number;
+  results: object[];
+  aggregations: AggregationsOrStats;
+  stats: AggregationsOrStats;
+}
 
-## Deploy on Vercel
+export interface AggregationsOrStats {
+  [key: string]: Record<string, number> | MinMaxValues;
+}
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+export interface MinMaxValues {
+  min: number;
+  max: number;
+}
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-# search-demo
-# finder
+## Getting started
+
+- Node.js: The JavaScript runtime used for building and running the Next.js app. Download and install it from nodejs.org. [here](https://nodejs.org/)
+
+- Yarn or npm - Follow installation instructions [here](https://yarnpkg.com/) for Yarn or [here](https://www.npmjs.com/) for npm
+
+### Steps
+
+1. Clone the repo
+
+```sh
+git clone https://github.com/sharvaibhav/finder-local
+```
+
+###
+
+2. Install dependencies
+
+```sh
+npm install
+```
+
+3. Start the dev server
+
+```sh
+npm run dev
+```
+
+### The application should now be running on http://localhost:3000.
