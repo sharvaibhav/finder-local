@@ -14,25 +14,59 @@ interface MultiSelectProps {
   options: Option[];
   onChange: (selectedOption: Option[], label: string) => void;
 }
+
+const TickIcon = () => (
+  <svg
+    className="h-5 w-5"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 20 20"
+    fill="currentColor">
+    <path
+      fillRule="evenodd"
+      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+      clipRule="evenodd"
+    />
+  </svg>
+);
+const sortOptions = (reference, options) => {
+  if (options.length === 0) return [];
+  const referenceIds = reference?.map((item) => item.value);
+  const optionsCopy = [...options]; // just in case Objects are frozen.
+  return optionsCopy?.sort((a, b) => {
+    const aExistsInReference = referenceIds.includes(a.value);
+    const bExistsInReference = referenceIds.includes(b.value);
+
+    if (aExistsInReference && bExistsInReference) {
+      return 0; // If both exist in the reference list, keep their relative order
+    }
+    if (aExistsInReference) {
+      return -1; // If a exists in the reference list, it should come first
+    }
+    if (bExistsInReference) {
+      return 1; // If b exists in the reference list, it should come first
+    }
+    return 0; // If neither exists in the reference list, keep their relative order
+  });
+};
 export const MultiSelect: React.FC<MultiSelectProps> = ({
   label,
   options = [],
   defaultValue = [],
   onChange = (sel) => console.log(sel),
 }) => {
+  const localOptions = sortOptions(defaultValue, options);
   const [isOpen, setIsOpen] = useState(false);
   const [selection, setSelection] = useState<Option[]>(defaultValue);
   const dropdownRef = useRef<HTMLElement>(null);
-
+  const handleClickOutside = (event: React.MouseEvent<HTMLElement>) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
+      setIsOpen(false);
+    }
+  };
   useEffect(() => {
-    const handleClickOutside = (event: React.MouseEvent<HTMLElement>) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
     document.addEventListener("click", handleClickOutside);
     return () => {
       document.removeEventListener("click", handleClickOutside);
@@ -42,12 +76,20 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
   useEffect(() => {
     if (!isOpen && selection.length > 0) {
       onChange(selection, label);
-      setSelection([]);
+      // setSelection([]);
     }
   }, [isOpen, selection]);
 
-  function isSelected(value: Option) {
-    return selection.find((el) => el === value) ? true : false;
+  function isSelected(currentOption: Option) {
+    return selection.find((el) => el.value === currentOption.value)
+      ? true
+      : false;
+  }
+
+  function handleApply() {
+    // setSelection(tempSelection);
+    onChange(selection, label);
+    setIsOpen(false); // Optionally close the dropdown when "Apply" is clicked
   }
 
   function handleSelect(value: Option) {
@@ -55,14 +97,13 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
     if (!isSelected(value)) {
       selectedItemUpdated = [
         ...selection,
-        options.find((el) => el.id === value.id),
+        localOptions.find((el) => el.id === value.id),
       ];
       setSelection(selectedItemUpdated);
     } else {
       selectedItemUpdated = selection.filter((el) => el.id !== value.id);
       setSelection(selectedItemUpdated);
     }
-    // setIsOpen(true);
   }
 
   return (
@@ -123,10 +164,10 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
                   <Listbox.Options
                     static
                     className="max-h-60 rounded-md py-1 text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5">
-                    {options.map((person) => {
-                      const selected = isSelected(person);
+                    {localOptions.map((item) => {
+                      const selected = isSelected(item);
                       return (
-                        <Listbox.Option key={person.id} value={person}>
+                        <Listbox.Option key={item.id} value={item}>
                           {({ active }) => (
                             <div
                               className={`${
@@ -138,24 +179,14 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
                                 className={`${
                                   selected ? "font-semibold" : "font-normal"
                                 } block truncate`}>
-                                {person.value}
+                                {item.value}
                               </span>
                               {selected && (
                                 <span
                                   className={`${
                                     active ? "text-white" : "text-blue-600"
                                   } absolute inset-y-0 left-0 flex items-center pl-1.5`}>
-                                  <svg
-                                    className="h-5 w-5"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 20 20"
-                                    fill="currentColor">
-                                    <path
-                                      fillRule="evenodd"
-                                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                      clipRule="evenodd"
-                                    />
-                                  </svg>
+                                  <TickIcon />
                                 </span>
                               )}
                             </div>
@@ -164,6 +195,11 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
                       );
                     })}
                   </Listbox.Options>
+                  <button
+                    onClick={handleApply}
+                    className="w-full text-center py-2 bg-blue-500 text-white rounded-b-md hover:bg-blue-600">
+                    Apply
+                  </button>
                 </Transition>
               </div>
             </>

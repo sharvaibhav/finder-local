@@ -24,6 +24,12 @@ const getRandomDateBetween = (
   return randomDate;
 };
 
+const generatePhrase = () => {
+  // Generate a random number of words between 4 and 8
+  const numWords = Math.floor(Math.random() * 5) + 4;
+  return faker.lorem.words(numWords);
+};
+
 const generateDummyData = (count) => {
   const currentMonth = new Date().getMonth() + 1;
   const startDate = `${faker.datatype.number({
@@ -45,6 +51,7 @@ const generateDummyData = (count) => {
 
   for (let i = 0; i < count; i++) {
     const dummyData = {
+      Description: generatePhrase(),
       "SET POINT HIGH HIGH": faker.datatype.float({ min: 150, max: 170 }),
       sapParentAvevaExternalId: faker.datatype.uuid(),
       "Issued By": faker.random.arrayElement([

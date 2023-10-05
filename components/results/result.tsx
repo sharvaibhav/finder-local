@@ -3,6 +3,7 @@ import "./result.scss";
 import { ResultsGrid } from "../result-grid/result-grid";
 import CurrentFiltersView from "../filters/current-filters-view";
 import { AddFilter } from "../filters/add-filter";
+import { ColumnsSelector } from "./columns-selector";
 
 const Result: React.FC = () => {
   return (
@@ -11,6 +12,7 @@ const Result: React.FC = () => {
         <CurrentFiltersView />
         <AddFilter />
       </div>
+      <ColumnsSelector />
       <ResultsGrid />
     </>
   );

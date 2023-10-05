@@ -15,6 +15,9 @@ import useSearchRequestStore, {
   selectUpdateSearchRequest,
 } from "@/stores/search-request-store";
 import { useSearchResults } from "@/hooks/search-results";
+import useCurrentColumnsStore, {
+  selectCurrentColumns,
+} from "@/stores/columns-selector-store";
 
 export const NUMBER_OF_COLUMNS = 12;
 
@@ -24,7 +27,9 @@ const ResultsGridComponent: React.FC = () => {
   const setRequest = useSearchRequestStore(selectUpdateSearchRequest);
   const prevFormDataValue = useRef(currentFilters);
   const { data: results, isLoading } = useSearchResults(request);
+  const currentColumns = useCurrentColumnsStore(selectCurrentColumns);
 
+  console.log(currentColumns);
   /**
    * This useEffect takes care we dont fire unnecessary http calls.
    */
@@ -67,27 +72,23 @@ const ResultsGridComponent: React.FC = () => {
       <div className="flex headers py-2 border-b bg-gray-200">
         {results &&
           results.hits > 0 &&
-          Object.entries(results?.results[0])
-            .slice(0, NUMBER_OF_COLUMNS)
-            .map(([key, _]) => (
-              <div
-                key={key}
-                className="header px-2 overflow-hidden whitespace-nowrap overflow-ellipsis border-r">
-                {key}
-              </div>
-            ))}
+          currentColumns.map((column) => (
+            <div
+              key={column}
+              className="header px-2 overflow-hidden whitespace-nowrap overflow-ellipsis border-r">
+              {column}
+            </div>
+          ))}
       </div>
       {results?.results.map((result: any, index: number) => (
         <div key={index} className="flex results bg-gray-100">
-          {Object.entries(result)
-            .slice(0, NUMBER_OF_COLUMNS)
-            .map(([key, value]: [key: string, value: any]) => (
-              <div
-                key={key}
-                className="result px-2 py-2 overflow-hidden whitespace-nowrap overflow-ellipsis border-r">
-                {value}
-              </div>
-            ))}
+          {currentColumns.map((column) => (
+            <div
+              key={column}
+              className="result px-2 py-2 overflow-hidden whitespace-nowrap overflow-ellipsis border-r">
+              {result[column]}
+            </div>
+          ))}
         </div>
       ))}
     </div>
