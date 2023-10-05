@@ -52,7 +52,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
   label,
   options = [],
   defaultValue = [],
-  onChange = (sel) => console.log(sel),
+  onChange = () => {},
 }) => {
   const localOptions = sortOptions(defaultValue, options);
   const [isOpen, setIsOpen] = useState(false);
