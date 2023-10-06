@@ -51,10 +51,10 @@ const generateDummyData = (count) => {
 
   for (let i = 0; i < count; i++) {
     const dummyData = {
-      Description: generatePhrase(),
+      DESCRIPTION: generatePhrase(),
       "SET POINT HIGH HIGH": faker.datatype.float({ min: 150, max: 170 }),
-      sapParentAvevaExternalId: faker.datatype.uuid(),
-      "Issued By": faker.random.arrayElement([
+      "EXTERNAL SYSTEM ID": faker.datatype.uuid(),
+      "ISSUED BY": faker.random.arrayElement([
         "Vaibhav",
         "Ole",
         "Haakon",
@@ -66,7 +66,7 @@ const generateDummyData = (count) => {
         "Peter",
         "Nopmanee",
       ]),
-      Owner: faker.random.arrayElement([
+      OWNER: faker.random.arrayElement([
         "Person A",
         "Person B",
         "Person C",
@@ -88,8 +88,7 @@ const generateDummyData = (count) => {
         "II 12 oiu",
       ]),
       "PART NUMBER": faker.random.alphaNumeric(10),
-      source: faker.random.arrayElement(["aveva", "sap", "external", "ION"]),
-      flocBarrierElementPrimary: faker.random.alphaNumeric(12),
+      SOURCE: faker.random.arrayElement(["aveva", "sap", "external", "ION"]),
       "CALIBRATED RANGE MAX_UOM": faker.random.arrayElement([
         "oC",
         "oF",
@@ -97,8 +96,8 @@ const generateDummyData = (count) => {
       ]),
       "SERIAL NUMBER": faker.datatype.uuid(),
       "SIGNAL TYPE": faker.random.arrayElement(["4-20mA", "0-10V", "Modbus"]),
-      "HAZARDOUS AREA CERT NUMBER": faker.random.alphaNumeric(12),
-      createdTime: getRandomDateBetween(
+      "HAZARDOUS CERT NUMBER": faker.random.alphaNumeric(12),
+      "CREATED TIME": getRandomDateBetween(
         startDay,
         startMonth,
         startYear,
@@ -107,13 +106,11 @@ const generateDummyData = (count) => {
         endYear
       ).toISOString(),
       "SUPPLY CODE": faker.random.arrayElement(["NA", "EU", "ASIA"]),
-      state: faker.random.number({ min: 0, max: 1 }).toString(),
       id: faker.datatype.number({ min: 8000000, max: 9000000 }),
-      flocFunctionalLocation: faker.random.alphaNumeric(10),
       "WEIGHT (DRY)": faker.datatype.float({ min: 2.0, max: 19.0 }),
       "MODEL NUMBER": faker.random.alphaNumeric(7),
       "I/O TYPE": faker.random.arrayElement(["AI", "AO", "DI", "DO"]),
-      System: faker.random.arrayElement([
+      SYSTEM: faker.random.arrayElement([
         "11: Crane and fabrication",
         "22: Sanitation Disposal system",
         "21: CRUDE HANDLING AND METERING",
@@ -126,7 +123,7 @@ const generateDummyData = (count) => {
         "33: Gas Filteration Sys",
         "34: Super Spilling  Sys",
       ]),
-      Discipline: faker.random.arrayElement([
+      DISCIPLINE: faker.random.arrayElement([
         "A: Assemply and Installation",
         "B: Biomarine and sanity",
         "C: Crane and material",
@@ -137,11 +134,7 @@ const generateDummyData = (count) => {
         "I: Industrial equipments",
         "J: Jagan and magan",
       ]),
-      "HAZARDOUS AREA TEMP RATING (AS REQUIRED)": faker.random.arrayElement([
-        "T6",
-        "T5",
-        "T4",
-      ]),
+      "HAZARDOUS TEMP RATING": faker.random.arrayElement(["T6", "T5", "T4"]),
       "PARENT TAG": faker.random.arrayElement([
         "65SDE54",
         "09VGTDE54",
@@ -164,13 +157,8 @@ const generateDummyData = (count) => {
         "21UIVF71",
       ]),
       flocSystemId: faker.datatype.number({ min: 23, max: 100 }),
-      "SET POINT HIGH HIGH_UOM": faker.random.arrayElement([
-        "oC",
-        "oF",
-        "oL",
-        "iY",
-      ]),
-      "Functional Location": faker.random.arrayElement([
+      "SET POINT HIGH": faker.random.arrayElement(["oC", "oF", "oL", "iY"]),
+      "FUNCTIONAL LOCATION": faker.random.arrayElement([
         "T100IU",
         "26Y998UY",
         "41Y99TYY",
@@ -206,7 +194,7 @@ const generateDummyData = (count) => {
         endMonth,
         endYear
       ).toISOString(),
-      "LAST INSPECTION DATE": getRandomDateBetween(
+      "INSPECTION DATE": getRandomDateBetween(
         startDay,
         startMonth,
         startYear,

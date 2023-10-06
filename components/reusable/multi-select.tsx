@@ -54,7 +54,8 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
   defaultValue = [],
   onChange = () => {},
 }) => {
-  const localOptions = sortOptions(defaultValue, options);
+  const formattedOptions = sortOptions(defaultValue, options);
+  const [localOptions, setLocalOptions] = useState(formattedOptions);
   const [isOpen, setIsOpen] = useState(false);
   const [selection, setSelection] = useState<Option[]>(defaultValue);
   const dropdownRef = useRef<HTMLElement>(null);
@@ -106,6 +107,20 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
     }
   }
 
+  useEffect(() => {
+    if (!isOpen) {
+      setLocalOptions(formattedOptions); // Reset local options when dropdown is closed
+    }
+  }, [isOpen]);
+
+  function updateOptions(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value;
+    const filteredOptions = localOptions.filter((item) =>
+      item.value.toLowerCase().includes(value.toLowerCase())
+    );
+    setLocalOptions(filteredOptions);
+  }
+
   return (
     <div className="flex items-center justify-center ">
       <div className="w-full ">
@@ -137,9 +152,9 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
                             .map((data) => data.value)
                             .join(",")})`}
                     </span>
-                    <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                    <span className="w-4 absolute inset-y-0 right-0 flex items-center pointer-events-none">
                       <svg
-                        className="h-5 w-5 text-gray-400"
+                        className=" text-gray-400"
                         viewBox="0 0 20 20"
                         fill="none"
                         stroke="currentColor">
@@ -161,6 +176,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
                   className="absolute mt-1 z-10 w-full rounded-md bg-white shadow-lg">
+                  <input type="text" onChange={updtaeOptions} />
                   <Listbox.Options
                     static
                     className="max-h-60 rounded-md py-1 text-base leading-6 shadow-xs overflow-auto focus:outline-none sm:text-sm sm:leading-5">

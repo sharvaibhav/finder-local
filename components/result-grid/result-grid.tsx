@@ -1,6 +1,6 @@
-import { SearchResponse } from "@/pages/api/search";
 import LoadingBox from "../reusable/filters-loader/filters-loader";
 import { memo, useEffect, useRef } from "react";
+import "./result-grid.scss";
 import useCurrentFilterStore, {
   selectCurrentFilters,
 } from "@/stores/current-filters-store";

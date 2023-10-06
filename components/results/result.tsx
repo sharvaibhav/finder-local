@@ -1,5 +1,4 @@
 import React from "react";
-import "./result.scss";
 import { ResultsGrid } from "../result-grid/result-grid";
 import CurrentFiltersView from "../filters/current-filters-view";
 import { AddFilter } from "../filters/add-filter";
@@ -17,9 +16,8 @@ const Result: React.FC = () => {
     <>
       <div className="py-4 px-4 bg-gray-200">
         <CurrentFiltersView />
-        <AddFilter />
       </div>
-      <div className=" py-4  w-full  flex justify-between ">
+      <div className="py-4 w-full flex justify-between">
         <div>
           Total number of hits - <strong>{results?.hits}</strong>
         </div>

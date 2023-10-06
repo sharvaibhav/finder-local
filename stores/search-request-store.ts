@@ -12,7 +12,7 @@ interface SearchRequestState {
 
 const emptySearchRequest: SearchRequest = {
   query: " ",
-  aggregate: "System,Discipline",
+  aggregate: "SYSTEM,DISCIPLINE",
   stats: "WEIGHT (DRY)",
   filters: [],
   size: 15,
@@ -21,7 +21,7 @@ const emptySearchRequest: SearchRequest = {
 
 const initialSearchRequest: SearchRequest = {
   query: " ",
-  aggregate: "System,Discipline",
+  aggregate: "SYSTEM,DISCIPLINE",
   stats: "WEIGHT (DRY)",
   filters: [],
   size: 15,

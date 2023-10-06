@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import MinMaxSlider from "../reusable/minMaxInput";
-import { XCircleIcon } from "@heroicons/react/20/solid";
+import { XMarkIcon as TrashIcon } from "@heroicons/react/20/solid";
 import DateRangePicker, { Range } from "../reusable/date";
 
 import useCurrentFilterStore, {
@@ -18,6 +18,7 @@ import useSearchRequestStore, {
 import createFormData from "@/utilities/create-formdata-from-meta-and-result-data";
 import LoadingBox from "../reusable/filters-loader/filters-loader";
 import { FormField } from "./filter.model";
+import { AddFilter } from "./add-filter";
 
 const CurrentFiltersView: React.FC = () => {
   const currentFilters = useCurrentFilterStore(selectCurrentFilters);
@@ -69,9 +70,9 @@ const CurrentFiltersView: React.FC = () => {
           if (type === "number" && rangeMin && rangeMax) {
             return (
               <div
-                className="w-2/6 p-2 flex  bg-gray-100 mt-1  border-l-2 rounded-lg"
+                className="w-2/12 p-1 flex mr-3   mt-1  border-l-2 rounded-lg"
                 key={label}>
-                <div className="w-5/6">
+                <div className="w-11/12">
                   <MinMaxSlider
                     key={label}
                     label={label}
@@ -84,8 +85,8 @@ const CurrentFiltersView: React.FC = () => {
                     }
                   />
                 </div>
-                <XCircleIcon
-                  className="cursor-pointer mt-2 w-1/6 h-8 text-blue-500 hover:text-blue-600 top-2 right-2"
+                <TrashIcon
+                  className="cursor-pointer mt-1 w-1/6  h-7 text-blue-500 hover:text-blue-600 top-2 right-2"
                   style={{ fill: "currentColor" }}
                   onClick={() => deleteFilter(label)}
                 />
@@ -94,9 +95,9 @@ const CurrentFiltersView: React.FC = () => {
           } else if (type === "string") {
             return (
               <div
-                className="w-2/6 p-2 flex bg-gray-100 mt-1 border-l-2 rounded-lg	"
+                className="w-2/12 p-1 flex mr-3  mt-1 border-l-2 rounded-lg	"
                 key={label}>
-                <div className="w-5/6">
+                <div className="w-11/12">
                   <MultiSelect
                     label={label}
                     options={options ? options : []}
@@ -109,8 +110,8 @@ const CurrentFiltersView: React.FC = () => {
                   />
                 </div>
 
-                <XCircleIcon
-                  className="cursor-pointer mt-2 w-1/6 h-8 text-blue-500 hover:text-blue-600 top-2 right-2"
+                <TrashIcon
+                  className="cursor-pointer mt-1 w-1/6 h-7 text-blue-500 hover:text-blue-600 top-2 right-2"
                   style={{ fill: "currentColor" }}
                   onClick={() => deleteFilter(label)}
                 />
@@ -119,10 +120,10 @@ const CurrentFiltersView: React.FC = () => {
           } else if (type === "date") {
             return (
               <div
-                className="w-2/6 p-2 flex bg-gray-100 mt-1 border-l-2 rounded-lg	"
+                className="w-2/12 p-1 flex mr-3  mt-1 border-l-2 rounded-lg	"
                 key={label}>
                 {
-                  <div className="w-5/6">
+                  <div className="w-11/12">
                     <DateRangePicker
                       label={label}
                       min={rangeMin}
@@ -136,8 +137,8 @@ const CurrentFiltersView: React.FC = () => {
                     />
                   </div>
                 }
-                <XCircleIcon
-                  className="cursor-pointer mt-2 w-1/6 h-8 text-blue-500 hover:text-blue-600 top-2 right-2"
+                <TrashIcon
+                  className=" cursor-pointer mt-1 w-1/6 h-7 text-blue-500 hover:text-blue-600 top-2 right-2"
                   style={{ fill: "currentColor" }}
                   onClick={() => deleteFilter(label)}
                 />
@@ -147,6 +148,9 @@ const CurrentFiltersView: React.FC = () => {
           return null;
         }
       )}
+      <div className="w-3/12">
+        <AddFilter />
+      </div>
     </div>
   );
 };

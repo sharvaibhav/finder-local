@@ -9,8 +9,9 @@ interface ColumnSelectorState {
   resetDefault: () => void;
 }
 
+const DEFAULT_COLUMNS = ["id", "DESCRIPTION"];
 const useCurrentColumnsStore = create<ColumnSelectorState>((set) => ({
-  currentColumns: ["id", "Description"],
+  currentColumns: DEFAULT_COLUMNS,
   setColumns: (columns: string[]) =>
     set((state) =>
       produce(state, (draft) => {
@@ -34,7 +35,7 @@ const useCurrentColumnsStore = create<ColumnSelectorState>((set) => ({
   resetDefault: () =>
     set((state) =>
       produce(state, (draft) => {
-        draft.currentColumns = ["id", "Description"];
+        draft.currentColumns = [...DEFAULT_COLUMNS];
       })
     ),
 }));
