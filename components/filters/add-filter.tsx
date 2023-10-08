@@ -76,7 +76,7 @@ export const AddFilter: React.FC = () => {
             Add Filter{" "}
           </Popover.Button>
 
-          <Popover.Panel className="border border-gray-300 bg-white rounded-md max-h-60 z-20  overflow-y-auto  absolute">
+          <Popover.Panel className="border border-gray-300 bg-white rounded-md max-h-60 z-20  overflow-y-auto  absolute  -left-2/4">
             {availableFilters.map((filter: FormField) => (
               <span key={filter.label}>
                 <button

@@ -64,15 +64,15 @@ const CurrentFiltersView: React.FC = () => {
           options,
           rangeMin,
           rangeMax,
-          selection,
+          selection = [],
           value,
         }: FormField) => {
           if (type === "number" && rangeMin && rangeMax) {
             return (
               <div
-                className="w-2/12 p-1 flex mr-3   mt-1  border-l-2 rounded-lg"
+                className={`w-2/12 p-1 flex mr-3   mt-1  border-l-2 rounded-lg `}
                 key={label}>
-                <div className="w-11/12">
+                <div className={`w-11/12 `}>
                   <MinMaxSlider
                     key={label}
                     label={label}
@@ -95,9 +95,9 @@ const CurrentFiltersView: React.FC = () => {
           } else if (type === "string") {
             return (
               <div
-                className="w-2/12 p-1 flex mr-3  mt-1 border-l-2 rounded-lg	"
+                className={`w-2/12 p-1 flex mr-3 mt-1 rounded-lg `}
                 key={label}>
-                <div className="w-11/12">
+                <div className={`w-11/12 `}>
                   <MultiSelect
                     label={label}
                     options={options ? options : []}
@@ -148,7 +148,7 @@ const CurrentFiltersView: React.FC = () => {
           return null;
         }
       )}
-      <div className="w-3/12">
+      <div className=" w-1/12">
         <AddFilter />
       </div>
     </div>
