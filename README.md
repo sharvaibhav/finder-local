@@ -2,15 +2,15 @@
 
 This project is built using Next.js and provides dynamic data searching capabilities, including query and filter options to refine the search results. It exposes two main APIs for fetching metadata and performing searches based on various parameters.
 
-There is working deployment of the project hosted on Vercel, Every commit updates the deploment.
+There is working deployment of the project hosted on Vercel, Every succeful PR updates the deploment.
 
 https://finder-mocha.vercel.app/
 
 ## Table of Contents
 
 - [Installation](#installation)
-- [Usage](#usage)
-- [API](#api)
+- [Usage](#Getting started)
+- [API](#APIs)
   - [/api/meta](#apimeta)
   - [/api/search](#apisearch)
 
