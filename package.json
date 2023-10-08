@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest --coverage ",
-    "test-watch": "jest --watch --coverage "
+    "test-watch": "jest --watch --coverage ",
+    "generate-data": "node ./fake-data-generator.js"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.15",
