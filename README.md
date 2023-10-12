@@ -9,8 +9,8 @@ https://finder-mocha.vercel.app/
 ## Table of Contents
 
 - [Installation](#installation)
-- [Usage](#usage)
-- [API](#api)
+- [Usage](#Getting started)
+- [API](#APIs)
   - [/api/meta](#apimeta)
   - [/api/search](#apisearch)
 

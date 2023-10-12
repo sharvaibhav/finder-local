@@ -96,4 +96,4 @@ const ResultsGridComponent: React.FC = () => {
   );
 };
 
-export const ResultsGrid = memo(ResultsGridComponent);
+export const ResultsGrid = ResultsGridComponent;
