@@ -1,5 +1,5 @@
 import LoadingBox from "../reusable/filters-loader/filters-loader";
-import { memo, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import "./result-grid.scss";
 import useCurrentFilterStore, {
   selectCurrentFilters,

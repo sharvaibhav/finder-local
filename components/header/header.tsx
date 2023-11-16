@@ -13,7 +13,7 @@ const SearchBar: React.FC = () => {
 
   return (
     <>
-      <div className=" w-full">
+      <div className="w-full">
         <div className="flex items-center">
           <input
             type="text"
